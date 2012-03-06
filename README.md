@@ -4,9 +4,11 @@ A simple node script that goes off to Twitter's favourite API and collects them 
 
 ## Install & Usage
 
-    npm install favs
-    ./mine.js  # wait for full download
-    ./cat.js   # cats out all the tweets
+    git clone https://github.com/remy/favs.git
+    cd favs
+    npm install # deps
+    ./mine.js   # wait for full download
+    ./cat.js    # cats out all the tweets
 
 ## TODO
 
