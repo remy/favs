@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 var twitterlib = require('twitterlib'), // npm install twitterlib
     fs = require('fs'),
-    filename = __dirname + '/favs.json';
+    filename = __dirname + '/favs.json',
+    user = process.argv[2] || 'rem';
 
 fs.readFile(filename, 'utf8', function (e, tweetsStr) {
   var options = {},
@@ -12,7 +13,7 @@ fs.readFile(filename, 'utf8', function (e, tweetsStr) {
     try {
       var last = JSON.parse(tweetsStr).reverse().pop();
       options.since = last.id_str;
-      console.log('getting tweets since ' + last.created_at);
+      console.log('getting tweets for ' + user + ' since ' + last.created_at);
       offset = tweetsStr.length;
       glue = ',';
     } catch (e) {
@@ -24,11 +25,11 @@ fs.readFile(filename, 'utf8', function (e, tweetsStr) {
   } else {
     tweetsStr = '[]';
     fs.writeFileSync(filename, tweetsStr);
-    console.log('written empty file');    
+    console.log('written empty file');
   }
-  
+
   var data = [];
-  twitterlib.favs('rem', options, function (tweets, options) {
+  twitterlib.favs(user, options, function (tweets, options) {
     console.log('collected ' + tweets.length + ' tweets');
     data = data.concat(tweets);
     if (tweets.length) {
@@ -42,14 +43,14 @@ fs.readFile(filename, 'utf8', function (e, tweetsStr) {
             console.log('done');
           } else {
             console.log(data);
-          }        
-        });  
+          }
+        });
       } else {
         console.log('no new tweets to save');
-      }      
+      }
       // fs.createWriteStream(filename, {
-      //   flags: 'a', 
-      //   encoding: 'utf8', 
+      //   flags: 'a',
+      //   encoding: 'utf8',
       //   mode: 666,
       //   start: offset
       // }).write(glue + JSON.stringify(data).substring(1), function (err) {
