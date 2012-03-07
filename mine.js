@@ -4,8 +4,6 @@ var twitterlib = require('twitterlib'), // npm install twitterlib
     filename = __dirname + '/favs.json',
     user = process.argv[2] || 'rem';
 
-console.log(user);
-
 fs.readFile(filename, 'utf8', function (e, tweetsStr) {
   var options = {},
       offset = 1,
@@ -15,7 +13,7 @@ fs.readFile(filename, 'utf8', function (e, tweetsStr) {
     try {
       var last = JSON.parse(tweetsStr).reverse().pop();
       options.since = last.id_str;
-      console.log('getting tweets since ' + last.created_at);
+      console.log('getting tweets for ' + user + ' since ' + last.created_at);
       offset = tweetsStr.length;
       glue = ',';
     } catch (e) {
